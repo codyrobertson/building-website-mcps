@@ -11,15 +11,25 @@ allow a later agent to resume rather than rediscover the target.
 
 ## Install
 
-Copy the skill directory into your Codex skills directory:
+Install from npm into either supported agent runtime:
 
 ```bash
-git clone https://github.com/codyrobertson/building-website-mcps.git
-mkdir -p ~/.codex/skills
-cp -R building-website-mcps/building-website-mcps ~/.codex/skills/
+npx building-website-mcps install --target codex
+npx building-website-mcps install --target claude
 ```
 
-Then invoke it as `$building-website-mcps`, for example:
+The installer refuses to overwrite an existing skill unless `--force` is
+explicitly passed. Use `--dest <skills-directory>` to install somewhere other
+than the default personal skill directory.
+
+Codex installs to `~/.codex/skills/building-website-mcps`; Claude Code installs
+to `~/.claude/skills/building-website-mcps`, the documented personal-skill
+location. Claude Code detects skills in that directory and exposes the folder
+name as the slash command. [Claude Code's skills documentation](https://code.claude.com/docs/en/skills)
+describes the same `SKILL.md` layout.
+
+Then invoke it in Codex as `$building-website-mcps`, or in Claude Code as
+`/building-website-mcps`, for example:
 
 ```text
 Use $building-website-mcps to build a safe MCP for this authorized service.

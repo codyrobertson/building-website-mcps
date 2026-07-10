@@ -13,13 +13,23 @@ Build from evidence, not guesses. Produce a resumable route/action graph first, 
 
 ## Required workflow
 
-For implementation work, use these skills when available:
+For implementation work, apply the same workflow in either supported agent runtime.
+
+### Codex
 
 - **REQUIRED SUB-SKILL:** Use `superpowers:brainstorming` before choosing the architecture.
 - **REQUIRED SUB-SKILL:** Use `superpowers:writing-plans` before editing the generated MCP.
 - **REQUIRED SUB-SKILL:** Use `superpowers:test-driven-development` for every behavior change.
 - **REQUIRED SUB-SKILL:** Use `superpowers:systematic-debugging` when evidence or tests disagree.
 - **REQUIRED SUB-SKILL:** Use `superpowers:verification-before-completion` before claiming readiness.
+
+### Claude Code
+
+This is an Agent Skills-standard `SKILL.md`, so Claude Code can load it directly
+from `~/.claude/skills/building-website-mcps/`. Use Claude's planning,
+subagent, test, and review facilities to satisfy the same phase gates above;
+do not assume Codex-only `superpowers:*` skills exist. Keep one lead agent
+responsible for stage gates and durable artifacts.
 
 If workers are available and delegation is authorized, assign bounded roles: reconnaissance, modeling, test/evaluation, and adversarial review. Keep one lead responsible for stage gates and artifact merges. Workers must write findings to the durable workspace; chat-only findings do not count.
 

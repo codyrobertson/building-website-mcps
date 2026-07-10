@@ -1,0 +1,42 @@
+{
+  "name": "building-website-mcps",
+  "version": "1.0.0",
+  "description": "Evidence-gated Codex and Claude Code skill for turning authorized websites into MCP servers.",
+  "type": "module",
+  "bin": {
+    "building-website-mcps": "bin/cli.mjs"
+  },
+  "files": [
+    "bin",
+    "building-website-mcps",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test npm-tests/*.test.mjs",
+    "pack:check": "npm pack --dry-run",
+    "prepack": "npm test"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "agent-skills",
+    "claude-code",
+    "codex",
+    "mcp",
+    "model-context-protocol",
+    "website"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codyrobertson/building-website-mcps.git"
+  },
+  "bugs": {
+    "url": "https://github.com/codyrobertson/building-website-mcps/issues"
+  },
+  "homepage": "https://github.com/codyrobertson/building-website-mcps#readme",
+  "license": "UNLICENSED",
+  "publishConfig": {
+    "access": "public"
+  }
+}
