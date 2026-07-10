@@ -1,0 +1,260 @@
+{
+  "schema_version": 1,
+  "task_id": "website-mcp-e2e",
+  "created_at": "2026-07-10T06:28:55+00:00",
+  "updated_at": "2026-07-10T22:00:00+00:00",
+  "goal": "Build and prove an end-to-end website-to-MCP skill across multiple runnable fixture sites",
+  "scope": {
+    "in": [
+      "skill instructions",
+      "safe workspace state",
+      "discovery compiler",
+      "fixture sites",
+      "generated MCP runtime",
+      "promotion",
+      "tests and release evidence"
+    ],
+    "out": [
+      "third-party production websites",
+      "production credentials or writes"
+    ],
+    "notes": "This workspace began outside Git. Public GitHub publication is an explicit final user-authorized endpoint."
+  },
+  "class": "S3",
+  "truth_surface": "fresh 117-test suite, three live subprocess fixture sites, generated MCP STDIO handshakes and promoted executions, benchmark JSON, cold collaboration-agent trace, and final adversarial review",
+  "spec": {
+    "acceptance_criteria": [
+      "Safe resumable evidence-gated website discovery",
+      "Three real local fixture sites covering public, session, and CLI-only/hybrid behavior",
+      "Standalone compact MCP generation and promoted execution",
+      "Unit, contract, E2E, performance, and cold-agent evidence",
+      "Truthful public release documentation"
+    ],
+    "invariants": [
+      "No raw credentials, cookies, CSRF values, or base64 payloads in evidence",
+      "STDIO is transport, not auth",
+      "Writes require confirmation and do not blindly retry",
+      "Only fresh exact E2E or contract proof promotes a capability"
+    ],
+    "assumptions": [
+      "Python 3.10 stdlib is available",
+      "Real fixture sites are local runnable HTTP/CLI processes",
+      "Collaboration-agent trace provenance is not independently attested"
+    ],
+    "required_evidence": [
+      "red-green regression tests",
+      "promoted three-site E2E matrix",
+      "protocol and clean-package probes",
+      "execution benchmark",
+      "cold collaboration-agent trace",
+      "adversarial release approval"
+    ]
+  },
+  "agent_registry": [
+    {
+      "id": "agent-1",
+      "role": "repo_scout",
+      "goal": "Design the discovery compiler and standalone MCP architecture",
+      "mode": "read-only",
+      "ownership": ["repository architecture"],
+      "depends_on": [],
+      "budget": "bounded reconnaissance",
+      "required_output": "touchpoints, risks, tests, and architecture proposal",
+      "status": "completed",
+      "blocked_by": "",
+      "notes": "Architecture adopted and adversarially revised."
+    },
+    {
+      "id": "agent-2",
+      "role": "test_sentinel",
+      "goal": "Design and validate three real fixture sites and E2E matrix",
+      "mode": "read-only",
+      "ownership": ["fixtures and test strategy"],
+      "depends_on": [],
+      "budget": "bounded reconnaissance",
+      "required_output": "fixture contracts, scenario matrix, and verification commands",
+      "status": "completed",
+      "blocked_by": "",
+      "notes": "Public catalog, session admin, and hybrid CLI fixtures implemented and tested."
+    },
+    {
+      "id": "agent-3",
+      "role": "security_reviewer",
+      "goal": "Harden state, validation, evidence, auth, and promotion boundaries",
+      "mode": "read-only",
+      "ownership": ["security and contract review"],
+      "depends_on": [],
+      "budget": "bounded adversarial review",
+      "required_output": "file-backed blockers and regression requirements",
+      "status": "completed",
+      "blocked_by": "",
+      "notes": "All accepted blockers were fixed and re-reviewed."
+    },
+    {
+      "id": "agent-4",
+      "role": "adversarial_reviewer",
+      "goal": "Review final release evidence and public package readiness",
+      "mode": "read-only",
+      "ownership": ["final package"],
+      "depends_on": ["agent-1", "agent-2", "agent-3"],
+      "budget": "bounded final review",
+      "required_output": "approve or file-backed release blockers",
+      "status": "completed",
+      "blocked_by": "",
+      "notes": "Approved with an accurately documented non-independent collaboration-trace caution."
+    }
+  ],
+  "evidence_ledger": [
+    {
+      "id": "finding-1",
+      "summary": "Initial package was planning-only and could overwrite state or validate false completion",
+      "source": "adversarial_review",
+      "evidence": "Initial review reproductions and RED state/validator tests",
+      "decision": "accept",
+      "owner": "main",
+      "severity": "blocker",
+      "impact": "Implemented create-only scaffold, signed transitions, semantic validation, secret scanning, and promotion gate",
+      "reason": "",
+      "risk": "",
+      "revisit": ""
+    },
+    {
+      "id": "finding-2",
+      "summary": "Multiple real fixture sites and clean generated MCP execution are required proof surfaces",
+      "source": "test_sentinel",
+      "evidence": "Promoted fixture matrix output and generated runtime E2E tests",
+      "decision": "accept",
+      "owner": "main",
+      "severity": "required",
+      "impact": "Public, session, hybrid, and CLI-only paths are exercised over live subprocesses",
+      "reason": "",
+      "risk": "",
+      "revisit": ""
+    },
+    {
+      "id": "finding-3",
+      "summary": "Cold collaboration-agent evidence is structurally valid but not independently attested",
+      "source": "adversarial_release_review",
+      "evidence": "evals/traces/cold-agent-public-promoted.json and evals documentation",
+      "decision": "accept",
+      "owner": "main",
+      "severity": "caution",
+      "impact": "Public documentation explicitly labels provenance and uninstrumented metrics",
+      "reason": "",
+      "risk": "Non-independent trace should not be represented as external-agent attestation",
+      "revisit": "Run an external agent through run_agent_eval.py when independent attestation is required"
+    },
+    {
+      "id": "finding-4",
+      "summary": "Final adversarial release review approved the package",
+      "source": "adversarial_release_review",
+      "evidence": "Fresh 117-test suite, promoted matrix, benchmark, CLI-only test, and hygiene review",
+      "decision": "accept",
+      "owner": "main",
+      "severity": "approval",
+      "impact": "Ready for user-authorized public publication",
+      "reason": "",
+      "risk": "",
+      "revisit": ""
+    }
+  ],
+  "slice_queue": [
+    {
+      "id": "slice-1",
+      "objective": "Safe scaffold, transitions, semantic validation, and secret scanning",
+      "owner": "main",
+      "files": ["scripts", "tests/test_workspace_tools.py"],
+      "gap_check": "Adversarial state and secret regressions",
+      "implementation_notes": "Create-only workspaces, signed evidence, semantic levels, and strict promotion validation",
+      "verification_command": "python -m unittest discover -s building-website-mcps/tests -p 'test_*.py' -q",
+      "rollback": "Restore individual changed scripts",
+      "done_condition": "State/security regressions pass and reviewers approve",
+      "status": "completed"
+    },
+    {
+      "id": "slice-2",
+      "objective": "Live fixture discovery, checkpoints, and CLI-only support",
+      "owner": "main",
+      "files": ["fixtures", "scripts/site_to_mcp", "scripts/discover_target.py"],
+      "gap_check": "Live fixture discovery and CLI-only RED tests",
+      "implementation_notes": "Same-origin evidence capture, signed checkpoints, transaction-safe commits, and cli://local",
+      "verification_command": "python -m unittest discover -s building-website-mcps/tests -p 'test_*.py' -q",
+      "rollback": "Remove new fixture/compiler modules",
+      "done_condition": "Three fixture and CLI-only discovery paths pass",
+      "status": "completed"
+    },
+    {
+      "id": "slice-3",
+      "objective": "Standalone generated MCP, promotion, and adapters",
+      "owner": "main",
+      "files": ["assets/python-mcp", "scripts/generate_mcp.py", "scripts/promote_capabilities.py"],
+      "gap_check": "Clean subprocess protocol and promoted execution RED tests",
+      "implementation_notes": "Compact catalog, safe HTTP/auth/file/CLI adapters, companion skill, and exact proof promotion",
+      "verification_command": "python -m unittest discover -s building-website-mcps/tests -p 'test_*.py' -q",
+      "rollback": "Remove generated runtime assets and promotion scripts",
+      "done_condition": "Generated packages execute promoted real-fixture workflows",
+      "status": "completed"
+    },
+    {
+      "id": "slice-4",
+      "objective": "Release evidence, cold-agent trace, and public handoff",
+      "owner": "main",
+      "files": ["scripts/run_fixture_matrix.py", "scripts/benchmark_mcp.py", "evals", "docs"],
+      "gap_check": "Discovery-only matrix and fake-agent evidence RED tests",
+      "implementation_notes": "Promoted matrix/benchmark executions and truthfully labelled collaboration trace",
+      "verification_command": "python -m unittest discover -s building-website-mcps/tests -p 'test_*.py' -q",
+      "rollback": "Remove release evidence artifacts",
+      "done_condition": "Fresh matrix, benchmark, trace schema, adversarial approval, and public publish proof",
+      "status": "completed"
+    }
+  ],
+  "verification_matrix": [
+    {
+      "id": "check-1",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python -m unittest discover -s building-website-mcps/tests -p 'test_*.py' -q",
+      "status": "pass",
+      "result": "117 tests passed in final release review",
+      "proves": "Unit, contract, fixture, generated runtime, promotion, matrix, and agent-evidence suites",
+      "classification": "full-suite",
+      "notes": "Fresh release-review evidence"
+    },
+    {
+      "id": "check-2",
+      "command": "run_fixture_matrix.py --output /tmp/website-mcp-release-matrix-final.json",
+      "status": "pass",
+      "result": "Public 2/2, session 10/5, and hybrid 4/4 promotions/executions completed",
+      "proves": "Live three-site discovery, proof, promotion, regeneration, and STDIO execution",
+      "classification": "e2e",
+      "notes": "Fresh local fixture matrix"
+    },
+    {
+      "id": "check-3",
+      "command": "benchmark_mcp.py --matrix /tmp/website-mcp-release-matrix-final.json --output /tmp/website-mcp-release-benchmark-final.json",
+      "status": "pass",
+      "result": "Cold/warm discovery and promoted execution budgets passed for all sites",
+      "proves": "Envelope, latency, bytes, and call measurements",
+      "classification": "performance",
+      "notes": "Fresh two/five-iteration benchmark evidence"
+    },
+    {
+      "id": "check-4",
+      "command": "validate_agent_trace(cold-agent-public-promoted.json)",
+      "status": "pass",
+      "result": "collaboration_agent_evidence success",
+      "proves": "Cold collaboration-agent public promoted-read trace satisfies structural schema",
+      "classification": "agent",
+      "notes": "Provenance is explicitly non-independent and metrics are uninstrumented"
+    },
+    {
+      "id": "check-5",
+      "command": "quick_validate.py building-website-mcps",
+      "status": "pass",
+      "result": "Skill structure valid",
+      "proves": "Skill metadata and package structure",
+      "classification": "skill",
+      "notes": "Fresh final integration run"
+    }
+  ],
+  "blockers": [],
+  "handoff_notes": "Final adversarial release review approved publication. The collaboration-agent trace is deliberately documented as structurally valid but not independently attested."
+}

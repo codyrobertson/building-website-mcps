@@ -1,0 +1,4 @@
+interface:
+  display_name: "Build Website MCPs"
+  short_description: "Turn authorized websites into efficient MCP servers"
+  default_prompt: "Use $building-website-mcps to map this website and build a tested, agent-aligned MCP server."

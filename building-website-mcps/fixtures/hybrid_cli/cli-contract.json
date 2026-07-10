@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "execution": {"mode": "argv", "shell": false, "executable_ref": "fixture_cli.py", "output_root_ref": "env:FIXTURE_CLI_OUTPUT_ROOT"},
+  "commands": [
+    {
+      "id": "project.inspect",
+      "argv": ["project", "inspect", "--id", "{id}"],
+      "arguments_schema": {"type": "object", "required": ["id"], "properties": {"id": {"type": "string", "pattern": "^p-[0-9]+$"}}, "additionalProperties": false},
+      "stdout_schema": {"type": "object", "required": ["id", "name", "event_count"]},
+      "side_effect": "read",
+      "timeout_ms": 3000
+    },
+    {
+      "id": "report.render",
+      "argv": ["report", "render", "--project", "{project}", "--output", "{output}"],
+      "arguments_schema": {"type": "object", "required": ["project", "output"], "properties": {"project": {"type": "string", "pattern": "^p-[0-9]+$"}, "output": {"type": "string"}}, "additionalProperties": false},
+      "stdout_schema": {"type": "object", "required": ["path", "bytes"]},
+      "side_effect": "write",
+      "timeout_ms": 3000
+    },
+    {
+      "id": "report.verify",
+      "argv": ["report", "verify", "--path", "{path}"],
+      "arguments_schema": {"type": "object", "required": ["path"], "properties": {"path": {"type": "string"}}, "additionalProperties": false},
+      "stdout_schema": {"type": "object", "required": ["path", "valid"]},
+      "side_effect": "read",
+      "timeout_ms": 3000
+    }
+  ]
+}

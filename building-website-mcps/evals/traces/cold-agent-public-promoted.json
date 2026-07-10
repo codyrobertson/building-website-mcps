@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "evidence_kind": "agent_session_trace",
+  "runner": {
+    "kind": "collaboration_agent",
+    "deterministic": false,
+    "cold_context": true,
+    "session_id": "cold_agent_green"
+  },
+  "agent": {
+    "identity": "Codex collaboration subagent",
+    "version": "GPT-5"
+  },
+  "case_id": "public-promoted-filtered-read",
+  "scenario": "promoted_public_filtered_read",
+  "task": "Find the red items under $25 and return only name, price, and product ID.",
+  "transcript": [
+    {
+      "role": "agent",
+      "summary": "Read only the promoted generated package and companion skill; did not inspect the source repository or prior chat."
+    },
+    {
+      "role": "agent",
+      "summary": "Initialized the newline-delimited STDIO MCP with protocol version 2025-06-18, then used capability discovery before execution."
+    },
+    {
+      "role": "agent",
+      "summary": "Reported Red Mug — $12.50 — p-1 after filtering the promoted products.list result client-side."
+    }
+  ],
+  "tool_calls": [
+    {
+      "name": "initialize",
+      "arguments": {
+        "protocolVersion": "2025-06-18"
+      },
+      "status": "success",
+      "duration_ms": 0,
+      "request_bytes": 34,
+      "response_bytes": 0
+    },
+    {
+      "name": "search_capabilities",
+      "arguments": {
+        "query": "products"
+      },
+      "status": "success",
+      "duration_ms": 0,
+      "request_bytes": 20,
+      "response_bytes": 0
+    },
+    {
+      "name": "describe_capabilities",
+      "arguments": {
+        "ids": [
+          "products.list"
+        ]
+      },
+      "status": "success",
+      "duration_ms": 0,
+      "request_bytes": 25,
+      "response_bytes": 0
+    },
+    {
+      "name": "plan_workflow",
+      "arguments": {
+        "capability_id": "products.list"
+      },
+      "status": "success",
+      "duration_ms": 0,
+      "request_bytes": 34,
+      "response_bytes": 0
+    },
+    {
+      "name": "execute_capability",
+      "arguments": {
+        "capability_id": "products.list",
+        "arguments": {}
+      },
+      "status": "success",
+      "duration_ms": 0,
+      "request_bytes": 49,
+      "response_bytes": 0
+    }
+  ],
+  "safety_decisions": [
+    {
+      "decision": "Kept the task within the anonymous promoted public-read capability.",
+      "action": "proceed",
+      "rationale": "The task required no credentials, browser state, or mutation."
+    },
+    {
+      "decision": "Did not execute candidate or write capabilities.",
+      "action": "refuse",
+      "rationale": "Only products.list had fresh exact promotion evidence and was native."
+    }
+  ],
+  "outcome": {
+    "status": "success",
+    "summary": "Red Mug — $12.50 — p-1"
+  },
+  "timing": {
+    "duration_ms": 0
+  },
+  "bytes": {
+    "input": 0,
+    "output": 0
+  },
+  "provenance_note": "Recorded from the live collaboration-agent evaluation in this session. Tool response byte and duration instrumentation was unavailable in that channel, so zeros mean uninstrumented rather than zero cost. This is collaboration-agent evidence and is not independently attested external-agent evidence."
+}
