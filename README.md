@@ -1,71 +1,89 @@
-# Building Website MCPs
+# Build an MCP from a website
 
-A reusable Codex skill for turning an **authorized** website, web application,
-public API, or local CLI into a compact, evidence-gated MCP server.
+`building-website-mcps` helps an agent turn a website, web app, public API, or
+local CLI into an MCP server. Give it a service you are allowed to use, and it
+works through the boring but important parts: how to authenticate, which routes
+and actions exist, what is safe to expose, and which actions still need a human
+in the loop.
 
-The skill starts with auth and route/action discovery, models each capability
-with the required `route`, `type`, and `surface` dimensions, and generates a
-standalone MCP only after contract or E2E proof promotes that capability. It is
-designed for iterative, multi-turn work: durable state and signed checkpoints
-allow a later agent to resume rather than rediscover the target.
+It does not treat a scraped endpoint as ready for production. The skill maps
+what it finds, tests it, and only exposes an action after there is real proof it
+works.
 
 ## Install
 
-Install from npm into either supported agent runtime:
+Install it for Codex:
 
 ```bash
 npx building-website-mcps install --target codex
+```
+
+Or install it for Claude Code:
+
+```bash
 npx building-website-mcps install --target claude
 ```
 
-The installer refuses to overwrite an existing skill unless `--force` is
-explicitly passed. Use `--dest <skills-directory>` to install somewhere other
-than the default personal skill directory.
+The installer puts the skill in your personal skills folder:
 
-Codex installs to `~/.codex/skills/building-website-mcps`; Claude Code installs
-to `~/.claude/skills/building-website-mcps`, the documented personal-skill
-location. Claude Code detects skills in that directory and exposes the folder
-name as the slash command. [Claude Code's skills documentation](https://code.claude.com/docs/en/skills)
-describes the same `SKILL.md` layout.
+| Tool | Location | Use it as |
+| --- | --- | --- |
+| Codex | `~/.codex/skills/building-website-mcps` | `$building-website-mcps` |
+| Claude Code | `~/.claude/skills/building-website-mcps` | `/building-website-mcps` |
 
-Then invoke it in Codex as `$building-website-mcps`, or in Claude Code as
-`/building-website-mcps`, for example:
+It will not replace an existing install unless you add `--force`. To use a
+different directory, add `--dest <skills-directory>`.
+
+Claude Code uses the same standard `SKILL.md` layout for personal skills. See
+the [Claude Code skills docs](https://code.claude.com/docs/en/skills) for its
+skill discovery rules.
+
+## What to ask for
+
+Try one of these:
 
 ```text
 Use $building-website-mcps to build a safe MCP for this authorized service.
+
+Map this public API, then give me a small MCP for the actions that are actually proven.
+
+Turn this local CLI into an MCP. Do not use a shell or make up commands.
 ```
 
-## What it enforces
+The skill keeps a record of its work, so a later agent can pick up where the
+last one stopped instead of starting over.
 
-- Explicit authorization and least-privilege auth discovery; STDIO is treated
-  as MCP transport, never as an authentication mode.
-- An OpenAPI 3.1 HTTP map plus an action graph that separates HTTP, UI,
-  hybrid, and local-CLI surfaces.
-- Candidate capabilities by default. Only fresh, hash-bound contract or E2E
-  evidence can promote a capability for MCP execution.
-- Compact `search`, `describe`, `plan`, and `execute` MCP tools, confirmation
-  for writes, bounded batch/file handling, and direct HTTP/CLI adapters.
-- Companion generated-skill documentation so a cold agent can configure and
-  safely use the generated MCP without build-history context.
-- TDD, unit, contract, live-fixture E2E, performance, and cold-agent evidence.
+## What you get
 
-Read the complete operating contract in
-[`building-website-mcps/SKILL.md`](building-website-mcps/SKILL.md). It includes
-the required iteration stages, artifact contracts, promotion rules, and stop
-conditions.
+For an authorized target, the skill can produce:
 
-## Proven fixture coverage
+- An auth plan that keeps credentials out of saved artifacts.
+- An OpenAPI map for HTTP routes and an action graph for UI and CLI work.
+- A compact MCP with tools for finding, understanding, planning, and running
+  supported actions.
+- A companion skill that explains setup and safe use to the next agent.
+- Tests for normal use, error cases, full workflows, and response size and
+  speed.
 
-The repository contains three runnable, real local fixture sites—not mocked
-HTTP calls:
+It keeps UI-only actions separate from stable HTTP or CLI operations. It also
+asks for confirmation before writes and keeps actions hidden until they pass
+fresh contract or end-to-end tests.
 
-| Fixture | Proves |
+## What it has been tested against
+
+The repository includes three runnable local apps:
+
+| Example | Covers |
 | --- | --- |
-| Public catalog | Anonymous reads and download-like documentation retrieval |
-| Session admin | Cookie/session auth recovery, CRUD, batch, import/export, and confirmed writes |
-| Hybrid CLI | HTTP plus typed, no-shell local-CLI operations |
+| Public catalog | Anonymous reads and document downloads |
+| Session admin | Session recovery, CRUD, batch work, imports, exports, and confirmed writes |
+| Hybrid CLI | HTTP calls alongside typed local CLI commands |
 
-Run the complete deterministic release lane with Python 3.10+:
+These are real local HTTP and CLI processes. They are not mocked network calls.
+
+## Run the checks yourself
+
+You only need Python 3.10 or newer:
 
 ```bash
 WEBSITE_MCP_APPROVAL_KEY=local-fixture-key \
@@ -81,14 +99,16 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover \
   -s building-website-mcps/tests -p 'test_*.py' -q
 ```
 
-The cold-agent trace in `building-website-mcps/evals/traces/` is an actual
-collaboration-agent run and is deliberately labelled non-independent; its
-timing and response-size fields are uninstrumented. It is useful structural
-evidence, not a substitute for an independently attested external agent run.
+There is also a cold-agent trace in `building-website-mcps/evals/traces/`. It
+comes from a real collaboration-agent run, but it is not independent external
+agent evidence and its timing and response-size fields were not instrumented.
 
-## Safety boundary
+## Safety
 
-Use this only on public surfaces or accounts/data you are authorized to access.
-It explicitly forbids bypassing access controls, CAPTCHAs, rate limits, and
-anti-bot protections, and artifacts store secret references—not raw credentials
-or cookies.
+Use this with public surfaces or accounts and data you are allowed to access.
+It does not bypass logins, CAPTCHAs, rate limits, or anti-bot protections.
+Saved artifacts use secret references instead of raw passwords, cookies, or
+tokens.
+
+For the full build contract, see
+[`building-website-mcps/SKILL.md`](building-website-mcps/SKILL.md).
