@@ -2,7 +2,7 @@
   "schema_version": 1,
   "task_id": "website-mcp-e2e",
   "created_at": "2026-07-10T06:28:55+00:00",
-  "updated_at": "2026-07-10T22:00:00+00:00",
+  "updated_at": "2026-07-10T22:30:00+00:00",
   "goal": "Build and prove an end-to-end website-to-MCP skill across multiple runnable fixture sites",
   "scope": {
     "in": [
@@ -253,8 +253,17 @@
       "proves": "Skill metadata and package structure",
       "classification": "skill",
       "notes": "Fresh final integration run"
+    },
+    {
+      "id": "check-6",
+      "command": "git ls-remote origin refs/heads/main",
+      "status": "pass",
+      "result": "597b58b published to public codyrobertson/building-website-mcps main",
+      "proves": "Public GitHub repository and initial release commit exist at origin",
+      "classification": "publication",
+      "notes": "User-authorized GitHub publication"
     }
   ],
   "blockers": [],
-  "handoff_notes": "Final adversarial release review approved publication. The collaboration-agent trace is deliberately documented as structurally valid but not independently attested."
+  "handoff_notes": "Published at https://github.com/codyrobertson/building-website-mcps. Final adversarial release review approved publication. The collaboration-agent trace is deliberately documented as structurally valid but not independently attested."
 }
